@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literary Lane | Library Management</title>
+    <link rel="stylesheet" href="StyleLibrary.css">
+</head>
+<body>
+    <button class="mobile-menu" id="menuButton" onclick="toggleSidebar()">☰</button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-mark">LL</div>
+            <div><h2>Literary Lane</h2><p>Library management</p></div>
+        </div>
+
+        <p class="nav-heading">MAIN MENU</p>
+        <a class="nav-link active" href="#overview" onclick="closeSidebar()">⌂ <span>Overview</span></a>
+        <a class="nav-link" href="#catalogue" onclick="closeSidebar()">▤ <span>Book Catalogue</span></a>
+        <a class="nav-link" href="#discover" onclick="closeSidebar()">✧ <span>Discover Books</span></a>
+
+        <p class="nav-heading">LIBRARY DESK</p>
+        <a class="nav-link" href="#add-book" onclick="closeSidebar()">＋ <span>Add a Book</span></a>
+        <a class="nav-link" href="#issue-book" onclick="closeSidebar()">↗ <span>Issue a Book</span></a>
+        <a class="nav-link" href="#return-book" onclick="closeSidebar()">↙ <span>Return a Book</span></a>
+        <a class="nav-link" href="#records" onclick="closeSidebar()">▣ <span>Issue Records</span></a>
+        <a class="nav-link" href="#activity" onclick="closeSidebar()">◷ <span>Recent Activity</span></a>
+
+        <div class="sidebar-note">
+            <span>♡</span>
+            <p>“A room without books is like a body without a soul.”</p>
+            <small>— Cicero</small>
+        </div>
+        <div class="sidebar-bottom">A little more reading, every day.</div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">YOUR PERSONAL LIBRARY SPACE</p>
+                <h1>Good day, reader <span>♡</span></h1>
+                <p class="subheading">Find a new favourite, or pick up where you left off.</p>
+            </div>
+            <div class="top-date" id="todayDate"></div>
+        </header>
+
+        <section id="overview" class="section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">AT A GLANCE</p>
+                    <h2>Library overview</h2>
+                </div>
+                <span class="small-tag">Your reading corner</span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card stat-pink">
+                    <span class="stat-icon">▤</span>
+                    <p>Total books</p>
+                    <h3 id="totalBooks">12</h3>
+                    <small>Titles in the catalogue</small>
+                </div>
+
+                <div class="stat-card stat-sage">
+                    <span class="stat-icon">✓</span>
+                    <p>Available copies</p>
+                    <h3 id="availableBooks">35</h3>
+                    <small>Ready to be borrowed</small>
+                </div>
+
+                <div class="stat-card stat-beige">
+                    <span class="stat-icon">↗</span>
+                    <p>Books issued</p>
+                    <h3 id="issuedBooks">0</h3>
+                    <small>Currently with readers</small>
+                </div>
+
+                <div class="stat-card stat-cream">
+                    <span class="stat-icon">♡</span>
+                    <p>Requests</p>
+                    <h3 id="requestCount">0</h3>
+                    <small>Waiting for attention</small>
+                </div>
+            </div>
+        </section>
+
+        <section id="discover" class="section discover-panel">
+            <div class="discover-copy">
+                <p class="eyebrow">A GOOD BOOK IS WAITING</p>
+                <h2>Make room for<br><em>one more story.</em></h2>
+                <p>Browse the shelves, discover something unexpected, and let your next chapter begin.</p>
+                <a class="primary-button" href="#catalogue">
+                    Explore the collection <span>→</span>
+                </a>
+            </div>
+
+            <div class="discover-art">
+                <div class="book-stack">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="flower">✿</div>
+            </div>
+        </section>
+
+        <section id="catalogue" class="section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">THE COLLECTION</p>
+                    <h2>Book catalogue</h2>
+                    <p class="section-description">A handpicked shelf of stories, ideas and adventures.</p>
+                </div>
+                <span class="small-tag" id="catalogueCount">12 books</span>
+            </div>
+
+            <div class="catalogue-tools">
+                <input type="text" id="searchInput"
+                    placeholder="Search by title or author..."
+                    oninput="displayBooks()">
+
+                <select id="genreFilter" onchange="displayBooks()">
+                    <option value="All">All genres</option>
+                    <option>Fiction</option>
+                    <option>Mystery</option>
+                    <option>Fantasy</option>
+                    <option>Adventure</option>
+                    <option>Thriller</option>
+                    <option>Non-fiction</option>
+                    <option>Science</option>
+                    <option>Self-help</option>
+                </select>
+            </div>
+
+            <div class="book-grid" id="bookGrid"></div>
+        </section>
+
+        <section id="add-book" class="section two-column-section">
+            <div class="form-panel">
+                <p class="eyebrow">GROW THE SHELF</p>
+                <h2>Add a book</h2>
+                <p class="section-description">Enter the details of a new title to add it to the catalogue.</p>
+
+                <form id="addBookForm">
+                    <label>
+                        Book title
+                        <input id="newTitle" required placeholder="Enter book title">
+                    </label>
+
+                    <label>
+                        Author
+                        <input id="newAuthor" required placeholder="Enter author name">
+                    </label>
+
+                    <div class="form-row">
+                        <label>
+                            Genre
+                            <input id="newGenre" required placeholder="e.g. Fiction">
+                        </label>
+
+                        <label>
+                            Total copies
+                            <input id="newCopies" type="number" min="1" value="1" required>
+                        </label>
+                    </div>
+
+                    <label>
+                        Cover image URL <span class="optional">(optional)</span>
+                        <input id="newCover" placeholder="Paste a direct image link">
+                    </label>
+
+                    <button class="primary-button" type="submit">Add to catalogue +</button>
+                </form>
+            </div>
+
+            <div class="form-panel pale-panel" id="issue-book">
+                <p class="eyebrow">BORROWING DESK</p>
+                <h2>Issue a book</h2>
+                <p class="section-description">Record a book borrowed by a reader.</p>
+
+                <form id="issueForm">
+                    <label>
+                        Book ID
+                        <input id="issueId" required placeholder="Example: B101">
+                    </label>
+
+                    <label>
+                        Reader name
+                        <input id="readerName" required placeholder="Enter reader's name">
+                    </label>
+
+                    <button class="primary-button" type="submit">Issue book ↗</button>
+                </form>
+
+                <div class="form-divider"></div>
+
+                <div id="return-book">
+                    <p class="eyebrow">BACK ON THE SHELF</p>
+                    <h2>Return a book</h2>
+
+                    <form id="returnForm">
+                        <label>
+                            Book ID
+                            <input id="returnId" required placeholder="Enter book ID">
+                        </label>
+
+                        <label>
+                            Reader name
+                            <input id="returnReader" required placeholder="Enter reader's name">
+                        </label>
+
+                        <button class="secondary-button" type="submit">Record return ↙</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="records" class="section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">LIBRARY DESK</p>
+                    <h2>Issue records</h2>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Book ID</th>
+                            <th>Book title</th>
+                            <th>Reader</th>
+                            <th>Issue date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="recordsBody">
+                        <tr>
+                            <td colspan="5" class="empty-row">No books have been issued yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="activity" class="section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">WHAT'S HAPPENING</p>
+                    <h2>Recent activity</h2>
+                </div>
+            </div>
+
+            <div class="activity-panel" id="activityList">
+                <p class="empty-row">Your recent library activity will appear here.</p>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-mark">LL</div>
+            <p><strong>Literary Lane</strong><br>A little more reading, every day.</p>
+            <span>Made for readers, with ♡</span>
+        </footer>
+    </main>
+
+    <script src="JavaScript.js"></script>
+</body>
+</html>
